@@ -59,10 +59,36 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-window.addEventListener('keydown', function (e){
+
+
+function playSound(e){
+//if keycode == audio data-key then console.log audio
+  //remember the backticks must be used `` as well as "${}"
+  //in es6 use const rather than var //Be sure to read up further on this
   const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+  //if keyCode == audio add the we are going to select the .key classs on that div
+  const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+  if(!audio) return; //Stops the function if there is not key that matches an audio.
   console.log(audio);
-});
+  audio.currentTime = 0;
+  audio.play();
+  console.log(key);
+  //Add the .playing class to the .key class div
+  key.classList.add('playing');
+}
+
+function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('playing');
+  }
+//Get all the .key class elements and store them in keys
+const keys = document.querySelectorAll('.key');
+
+//CALL THE FUNCTIONs
+//transition end 
+keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+window.addEventListener('keydown', playSound);
+
 </script>
 
 
